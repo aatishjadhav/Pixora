@@ -20,9 +20,7 @@ export default function HomePage() {
               alt={img.name}
               className="w-full h-40 object-cover rounded shadow"
             />
-            {/* <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-xs p-1 truncate">
-              {img.name}
-            </div> */}
+
             <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-md shadow-sm">
               {moment(img.uploadedAt).format("MMMM D, YYYY")}
             </div>

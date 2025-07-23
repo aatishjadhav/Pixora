@@ -7,10 +7,16 @@ const Navbar = () => (
         to="/"
         className="text-xl font-semibold text-blue-600 hover:text-blue-700"
       >
-        KaviosPix
+        Pixora
       </Link>
 
       <div className="flex gap-6 items-center text-sm font-medium text-gray-700">
+        <Link
+          to="/photos"
+          className="hover:text-blue-600 transition duration-200"
+        >
+          Photos
+        </Link>
         <Link
           to="/albums"
           className="hover:text-blue-600 transition duration-200"
