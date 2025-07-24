@@ -24,6 +24,12 @@ const Navbar = () => (
           Albums
         </Link>
         <Link
+          to="/favorites"
+          className="hover:text-blue-600 transition duration-200"
+        >
+          Favourites
+        </Link>
+        <Link
           to="/v2/profile/google"
           className="hover:text-blue-600 transition duration-200"
         >

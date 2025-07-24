@@ -7,7 +7,7 @@ const SignIn = () => {
   
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
-      <h1 className="text-3xl font-bold">Welcome to KaviosPix</h1>
+      <h1 className="text-3xl font-bold">Welcome to Pixora</h1>
       <button
         onClick={handleGoogleLogin}
         className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"

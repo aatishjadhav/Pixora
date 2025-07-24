@@ -8,6 +8,7 @@ import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import CreateAlbum from "./pages/CreateAlbum";
 import UploadImage from "./pages/AlbumImageUpload";
+import FavouriteImages from "./pages/FavouriteImages";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/albums" element={<AlbumList />} />
         <Route path="/albums/:albumId" element={<AlbumDetail />} />
         <Route path="/albums/new" element={<CreateAlbum />} />
+        <Route path="/favorites" element={<FavouriteImages />} />
         <Route path="/albums/:albumId/upload" element={<UploadImage />} />
         <Route path="/v2/profile/google" element={<GoogleProfile />} />
       </Routes>

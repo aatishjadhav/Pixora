@@ -18,7 +18,7 @@ export default function HomePage() {
             <img
               src={img.cloudUrl}
               alt={img.name}
-              className="w-full h-40 object-cover rounded shadow"
+              className="w-full h-60 object-cover rounded shadow"
             />
 
             <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-md shadow-sm">

@@ -12,6 +12,9 @@ export const getImages = (albumId) =>
 export const getAllImages = () =>
   axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/albums/images/all`, { withCredentials: true });
 
+export const getAllFavorites = () =>
+  axios.get(`${import.meta.env.VITE_SERVER_BASE_URL}/albums/images/favorites`, { withCredentials: true });
+
 export const toggleFavorite = (albumId, imageId, isFavorite) =>
   axios.put(`${import.meta.env.VITE_SERVER_BASE_URL}/albums/${albumId}/images/${imageId}/favorite`, { isFavorite }, { withCredentials: true });
 

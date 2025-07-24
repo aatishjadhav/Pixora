@@ -1,38 +1,18 @@
-const Image = require( "../models/Image.js");
-const Album = require( "../models/Album.js");
+const Image = require("../models/Image.js");
+const Album = require("../models/Album.js");
 const fs = require("fs");
 const path = require("path");
 
-const uploadImage =  async (req, res) => {
-  // const { tags, person, isFavorite } = req.body;
-  // const { albumId } = req.params;
-
-  // const album = await Album.findById(albumId);
-  // if (!album || (album.ownerId.toString() !== req.user.userId && !album.sharedWith.includes(req.user.email)))
-  //   return res.status(403).json({ error: "Forbidden" });
-
-  // const ext = path.extname(req.file.originalname);
-  // if (![".jpg", ".jpeg", ".png", ".gif"].includes(ext.toLowerCase()))
-  //   return res.status(400).json({ error: "Invalid image type" });
-
-  // const size = fs.statSync(req.file.path).size;
-
-  // const image = await Image.create({
-  //   name: req.file.originalname,
-  //   albumId,
-  //   tags: tags ? tags.split(",") : [],
-  //   person,
-  //   isFavorite: isFavorite === "true",
-  //   size,
-  // });
-
-  // res.status(201).json(image);
-
-   const { tags, person, isFavorite } = req.body;
+const uploadImage = async (req, res) => {
+  const { tags, person, isFavorite } = req.body;
   const { albumId } = req.params;
 
   const album = await Album.findById(albumId);
-  if (!album || (album.ownerId.toString() !== req.user.userId && !album.sharedWith.includes(req.user.email)))
+  if (
+    !album ||
+    (album.ownerId.toString() !== req.user.userId &&
+      !album.sharedWith.includes(req.user.email))
+  )
     return res.status(403).json({ error: "Forbidden" });
 
   const image = await Image.create({
@@ -48,14 +28,26 @@ const uploadImage =  async (req, res) => {
   res.status(201).json(image);
 };
 
-// const getImages =  async (req, res) => {
-//   const images = await Image.find({ albumId: req.params.albumId });
-//   res.json(images);
-// };
-
 const getFavorites = async (req, res) => {
-  const favorites = await Image.find({ albumId: req.params.albumId, isFavorite: true });
+  const favorites = await Image.find({
+    albumId: req.params.albumId,
+    isFavorite: true,
+  });
   res.json(favorites);
+};
+
+const getAllFavourites = async (req, res) => {
+  try {
+    const favorites = await Image.find({
+      isFavorite: true,
+    })
+      .populate("albumId", "name createdAt")
+      .sort({ uploadedAt: -1 });
+
+    res.json(favorites);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch global favorites" });
+  }
 };
 
 const getImages = async (req, res) => {
@@ -72,13 +64,10 @@ const getAllImages = async (req, res) => {
 
   // Find all albums the user can access
   const userAlbums = await Album.find({
-    $or: [
-      { ownerId: req.user.userId },
-      { sharedWith: userEmail }
-    ]
+    $or: [{ ownerId: req.user.userId }, { sharedWith: userEmail }],
   });
 
-  const albumIds = userAlbums.map(album => album._id);
+  const albumIds = userAlbums.map((album) => album._id);
 
   // Optional tag filter
   const tags = req.query.tags?.split(",");
@@ -88,7 +77,6 @@ const getAllImages = async (req, res) => {
   const images = await Image.find(query).sort({ uploadedAt: -1 });
   res.json(images);
 };
-
 
 const toggleFavorite = async (req, res) => {
   const image = await Image.findById(req.params.imageId);
@@ -111,4 +99,13 @@ const deleteImage = async (req, res) => {
   res.json({ message: "Image deleted" });
 };
 
-module.exports = { uploadImage, getImages, getAllImages, getFavorites, toggleFavorite, addComment, deleteImage };
+module.exports = {
+  getAllFavourites,
+  uploadImage,
+  getImages,
+  getAllImages,
+  getFavorites,
+  toggleFavorite,
+  addComment,
+  deleteImage,
+};

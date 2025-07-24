@@ -19,7 +19,7 @@ const getAlbumById = async (req, res) => {
 
 const createAlbum = async (req, res) => {
   const { name, description } = req.body;
-  const coverPhotoUrl = req.file?.path || null; // from Cloudinary
+  const coverPhotoUrl = req.file?.path || null; 
 
   const album = await Album.create({
     name,
