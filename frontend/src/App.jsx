@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import CreateAlbum from "./pages/CreateAlbum";
 import UploadImage from "./pages/AlbumImageUpload";
 import FavouriteImages from "./pages/FavouriteImages";
+import UploadToAllImages from "./pages/UploadImage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/photos" element={<Home />} />
+        <Route path="/upload-photo" element={<UploadToAllImages />} />
         <Route path="/albums" element={<AlbumList />} />
         <Route path="/albums/:albumId" element={<AlbumDetail />} />
         <Route path="/albums/new" element={<CreateAlbum />} />

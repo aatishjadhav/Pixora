@@ -28,6 +28,28 @@ const uploadImage = async (req, res) => {
   res.status(201).json(image);
 };
 
+const uploadImages = async (req, res) => {
+   try {
+      const { tags, person, isFavorite } = req.body;
+
+      const image = await Image.create({
+        name: req.file.originalname,
+        albumId: null, // No album
+        cloudUrl: req.file.path,
+        tags: tags ? tags.split(",") : [],
+        person,
+        isFavorite: isFavorite === "true",
+        size: req.file.size,
+      });
+
+      res.status(201).json(image);
+    } catch (err) {
+      console.error("Image upload failed:", err);
+      res.status(500).json({ error: "Upload failed" });
+    }
+  }
+
+
 const getFavorites = async (req, res) => {
   const favorites = await Image.find({
     albumId: req.params.albumId,
@@ -59,24 +81,47 @@ const getImages = async (req, res) => {
   res.json(images);
 };
 
+// const getAllImages = async (req, res) => {
+//   const userEmail = req.user.email;
+
+//   // Find all albums the user can access
+//   const userAlbums = await Album.find({
+//     $or: [{ ownerId: req.user.userId }, { sharedWith: userEmail }],
+//   });
+
+//   const albumIds = userAlbums.map((album) => album._id);
+
+//   // Optional tag filter
+//   const tags = req.query.tags?.split(",");
+//   const query = { albumId: { $in: albumIds } };
+//   if (tags) query.tags = { $in: tags };
+
+//   const images = await Image.find(query).sort({ uploadedAt: -1 });
+//   res.json(images);
+// };
+
 const getAllImages = async (req, res) => {
-  const userEmail = req.user.email;
+   try {
+    const userEmail = req.user.email;
 
-  // Find all albums the user can access
-  const userAlbums = await Album.find({
-    $or: [{ ownerId: req.user.userId }, { sharedWith: userEmail }],
-  });
+    const albums = await Album.find({
+      $or: [{ ownerId: req.user.userId }, { sharedWith: userEmail }],
+    });
 
-  const albumIds = userAlbums.map((album) => album._id);
+    const albumIds = albums.map((a) => a._id);
 
-  // Optional tag filter
-  const tags = req.query.tags?.split(",");
-  const query = { albumId: { $in: albumIds } };
-  if (tags) query.tags = { $in: tags };
+    const images = await Image.find({
+      $or: [{ albumId: { $in: albumIds } }, { albumId: null }],
+    });
 
-  const images = await Image.find(query).sort({ uploadedAt: -1 });
-  res.json(images);
+    res.json(images);
+  } catch (err) {
+    console.error("Error loading all images:", err);
+    res.status(500).json({ error: "Failed to load images" });
+  }
 };
+
+
 
 const toggleFavorite = async (req, res) => {
   const image = await Image.findById(req.params.imageId);
@@ -103,6 +148,7 @@ module.exports = {
   getAllFavourites,
   uploadImage,
   getImages,
+  uploadImages,
   getAllImages,
   getFavorites,
   toggleFavorite,
