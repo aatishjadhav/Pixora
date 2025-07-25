@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getImages } from "../services/ImageService";
 import { getAlbumById } from "../services/AlbumService";
+import { toggleFavorite } from "../services/ImageService";
 import moment from "moment";
 import ShareAlbumModal from "./ShareAlbumModal";
 import axios from "axios";
+import { BASE_URL } from "../config";
 
 export default function AlbumDetail() {
   const navigate = useNavigate();
@@ -14,17 +15,12 @@ export default function AlbumDetail() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-  // useEffect(() => {
-  //   getImages(albumId).then((res) => setImages(res.data));
-  //   getAlbumById(albumId).then((res) => setAlbum(res.data));
-  // }, [albumId]);
-
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const url = showFavoritesOnly
-          ? `http://localhost:4000/albums/${albumId}/images/favorites`
-          : `http://localhost:4000/albums/${albumId}/images`;
+          ? `${BASE_URL}/images/albums/${albumId}/favorites`
+          : `${BASE_URL}/images/albums/${albumId}`;
 
         const res = await axios.get(url, { withCredentials: true });
         setImages(res.data);
@@ -39,11 +35,7 @@ export default function AlbumDetail() {
 
   const handleFavoriteToggle = async (imageId, currentStatus) => {
     try {
-      const res = await axios.put(
-        `http://localhost:4000/albums/${albumId}/images/${imageId}/favorite`,
-        { isFavorite: !currentStatus },
-        { withCredentials: true }
-      );
+      await toggleFavorite(albumId, imageId, !currentStatus);
 
       setImages((prev) =>
         prev.map((img) =>
@@ -122,8 +114,6 @@ export default function AlbumDetail() {
               alt={img.name}
               className="w-full h-60 object-cover rounded shadow-sm"
             />
-
-            {/* Favorite Icon */}
             <div
               className="absolute top-2 right-2 cursor-pointer"
               onClick={() => handleFavoriteToggle(img._id, img.isFavorite)}

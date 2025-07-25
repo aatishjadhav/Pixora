@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { uploadToAllImage } from "../services/ImageService";
 
 export default function UploadToAllImages() {
   const navigate = useNavigate();
@@ -25,10 +25,11 @@ export default function UploadToAllImages() {
     formData.append("person", person);
 
     try {
-      await axios.post("http://localhost:4000/albums/images/upload", formData, {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      // await axios.post("http://localhost:4000/api/images", formData, {
+      //   withCredentials: true,
+      //   headers: { "Content-Type": "multipart/form-data" },
+      // });
+      await uploadToAllImage(formData);
       alert("Uploaded!");
       navigate("/photos");
     } catch (err) {

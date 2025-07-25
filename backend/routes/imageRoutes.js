@@ -16,15 +16,14 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 // const upload = multer({ dest: "uploads/", limits: { fileSize: 5 * 1024 * 1024 } });
-router.get("/images/favorites", verifyAccessToken, getAllFavourites);
-router.post("/:albumId/images", verifyAccessToken, upload.single("file"), uploadImage);
-router.post("/images/upload", verifyAccessToken, upload.single("file"), uploadImages);
-router.get("/images/all", verifyAccessToken, getAllImages);
-router.get("/:albumId/images", verifyAccessToken, getImages);
-router.get("/:albumId/images/favorites", verifyAccessToken, getFavorites);
-
-router.put("/:albumId/images/:imageId/favorite", verifyAccessToken, toggleFavorite);
-router.post("/:albumId/images/:imageId/comments", verifyAccessToken, addComment);
-router.delete("/:albumId/images/:imageId", verifyAccessToken, deleteImage);
+router.get("/", verifyAccessToken, getAllImages);
+router.post("/", verifyAccessToken, upload.single("file"), uploadImages);
+router.get("/favorites", verifyAccessToken, getAllFavourites);
+router.get("/albums/:albumId", verifyAccessToken, getImages);
+router.get("/albums/:albumId/favorites", verifyAccessToken, getFavorites);
+router.post("/albums/:albumId", verifyAccessToken, upload.single("file"), uploadImage);
+router.put("/albums/:albumId/:imageId/favorite", verifyAccessToken, toggleFavorite);
+router.post("/albums/:albumId/:imageId/comments", verifyAccessToken, addComment);
+router.delete("/albums/:albumId/:imageId", verifyAccessToken, deleteImage);
 
 module.exports = router;

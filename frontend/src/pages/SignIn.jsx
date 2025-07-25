@@ -1,7 +1,7 @@
 const SignIn = () => {
   const handleGoogleLogin = () => {
     window.location.href = `${
-      import.meta.env.VITE_SERVER_BASE_URL
+      import.meta.env.VITE_SERVER_BASE_AUTH_URL
     }/auth/google`;
   };
   

@@ -18,8 +18,8 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
-app.use('/albums', albumRoutes);
-app.use("/albums", imageRoutes);
+app.use('/api/albums', albumRoutes);
+app.use("/api/images", imageRoutes);
 
 
 initializeDatabase();

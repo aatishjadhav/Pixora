@@ -1,15 +1,13 @@
 import { useState } from "react";
-import axios from "axios";
+import { shareAlbum } from "../services/AlbumService";
 
 export default function ShareAlbumModal({ albumId, onClose }) {
   const [emails, setEmails] = useState("");
 
   const handleShare = async () => {
-    const emailList = emails.split(",").map(e => e.trim());
+    const emailList = emails.split(",").map((e) => e.trim());
     try {
-      await axios.post(`http://localhost:4000/albums/${albumId}/share`, {
-        emails: emailList
-      }, { withCredentials: true });
+      await shareAlbum(albumId, emailList);
 
       alert("Album shared successfully.");
       onClose();
@@ -28,7 +26,9 @@ export default function ShareAlbumModal({ albumId, onClose }) {
         &times;
       </button>
       <h2 className="text-xl font-semibold mb-4 text-gray-800">Share Album</h2>
-      <p className="text-sm text-gray-600 mb-2">Enter email addresses (comma-separated)</p>
+      <p className="text-sm text-gray-600 mb-2">
+        Enter email addresses (comma-separated)
+      </p>
       <textarea
         value={emails}
         onChange={(e) => setEmails(e.target.value)}

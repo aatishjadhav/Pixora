@@ -16,11 +16,12 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-router.get("/:albumId", verifyAccessToken, getAlbumById);
+router.get("/", verifyAccessToken, getUserAlbums);
 router.post("/", verifyAccessToken, upload.single("cover"), createAlbum);
+router.get("/:albumId", verifyAccessToken, getAlbumById);
 router.put("/:albumId", verifyAccessToken, updateAlbum);
 router.post("/:albumId/share", verifyAccessToken, shareAlbum);
 router.delete("/:albumId", verifyAccessToken, deleteAlbum);
-router.get("/", verifyAccessToken, getUserAlbums);
+
 
 module.exports = router;

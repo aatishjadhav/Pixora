@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { createAlbum } from "../services/AlbumService";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateAlbum() {
@@ -15,10 +15,7 @@ export default function CreateAlbum() {
     formData.append("description", description);
     if (cover) formData.append("cover", cover);
 
-    const res = await axios.post("http://localhost:4000/albums", formData, {
-      withCredentials: true,
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    await createAlbum(formData);
 
     alert("Album created!");
     navigate("/albums");

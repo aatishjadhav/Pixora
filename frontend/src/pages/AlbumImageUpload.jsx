@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { uploadImage } from "../services/ImageService";
 
 export default function UploadImage() {
   const { albumId } = useParams();
@@ -30,15 +30,8 @@ export default function UploadImage() {
     formData.append("isFavorite", isFavorite);
 
     try {
-      await axios.post(
-        `http://localhost:4000/albums/${albumId}/images`,
-        formData,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      alert("Image uploaded");
+      await uploadImage(albumId, formData);
+      alert("Image uploaded Successfully!");
       navigate(`/albums/${albumId}`);
     } catch (err) {
       console.error(err);
