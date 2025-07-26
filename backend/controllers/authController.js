@@ -8,7 +8,7 @@ const googleAuth = (req, res) => {
   const redirectUri = `https://pixora-backend.vercel.app/auth/google/callback`;
   const googleAuthUrl =
     `https://accounts.google.com/o/oauth2/auth?` +
-    `client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}` +
+    `client_id=${process.env.GOOGLE_CLIENT_ID}&${encodeURIComponent(redirectUri)}` +
     `&response_type=code&scope=profile email&access_type=offline&prompt=consent`;
   res.redirect(googleAuthUrl);
 };
