@@ -48,7 +48,7 @@ const googleCallback = async (req, res) => {
     const jwtToken = generateToken({ userId: user._id, email });
     res.cookie("access_token", jwtToken, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
       maxAge: 2 * 60 * 60 * 1000,
     });
