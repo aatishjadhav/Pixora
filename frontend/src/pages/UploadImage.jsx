@@ -25,10 +25,6 @@ export default function UploadToAllImages() {
     formData.append("person", person);
 
     try {
-      // await axios.post("http://localhost:4000/api/images", formData, {
-      //   withCredentials: true,
-      //   headers: { "Content-Type": "multipart/form-data" },
-      // });
       await uploadToAllImage(formData);
       alert("Uploaded!");
       navigate("/photos");
