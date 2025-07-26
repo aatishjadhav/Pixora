@@ -10,21 +10,25 @@ import CreateAlbum from "./pages/CreateAlbum";
 import UploadImage from "./pages/AlbumImageUpload";
 import FavouriteImages from "./pages/FavouriteImages";
 import UploadToAllImages from "./pages/UploadImage";
+import AppLayout from "./components/AppLayout";
 
 function App() {
   return (
     <AuthProvider>
-      <Navbar />
       <Routes>
         <Route path="/" element={<SignIn />} />
-        <Route path="/photos" element={<Home />} />
-        <Route path="/upload-photo" element={<UploadToAllImages />} />
-        <Route path="/albums" element={<AlbumList />} />
-        <Route path="/albums/:albumId" element={<AlbumDetail />} />
-        <Route path="/albums/new" element={<CreateAlbum />} />
-        <Route path="/favorites" element={<FavouriteImages />} />
-        <Route path="/albums/:albumId/upload" element={<UploadImage />} />
-        <Route path="/v2/profile/google" element={<GoogleProfile />} />
+
+        {/* Protected Layout Routes */}
+        <Route path="/" element={<AppLayout />}>
+          <Route path="photos" element={<Home />} />
+          <Route path="/v2/profile/google" element={<GoogleProfile />} />
+          <Route path="albums" element={<AlbumList />} />
+          <Route path="albums/new" element={<CreateAlbum />} />
+          <Route path="albums/:albumId" element={<AlbumDetail />} />
+          <Route path="albums/:albumId/upload" element={<UploadImage />} />
+          <Route path="favorites" element={<FavouriteImages />} />
+          <Route path="upload-photo" element={<UploadToAllImages />} />
+        </Route>
       </Routes>
     </AuthProvider>
   );

@@ -5,10 +5,10 @@ const { generateToken } = require("../utils/jwtUtils.js");
 require("dotenv").config();
 
 const googleAuth = (req, res) => {
-  const redirectUri = `https://pixora-backend.vercel.app/auth/google/callback`;
+  const redirectUri = `http://localhost:${process.env.PORT}/auth/google/callback`;
   const googleAuthUrl =
     `https://accounts.google.com/o/oauth2/auth?` +
-    `client_id=${process.env.GOOGLE_CLIENT_ID}&${encodeURIComponent(redirectUri)}` +
+    `client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}` +
     `&response_type=code&scope=profile email&access_type=offline&prompt=consent`;
   res.redirect(googleAuthUrl);
 };
@@ -25,7 +25,7 @@ const googleCallback = async (req, res) => {
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
         code,
         grant_type: "authorization_code",
-        redirect_uri: `https://pixora-backend.vercel.app/auth/google/callback`,
+        redirect_uri: `http://localhost:${process.env.PORT}/auth/google/callback`,
       }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     );
@@ -48,7 +48,7 @@ const googleCallback = async (req, res) => {
     const jwtToken = generateToken({ userId: user._id, email });
     res.cookie("access_token", jwtToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "Lax",
       maxAge: 2 * 60 * 60 * 1000,
     });
