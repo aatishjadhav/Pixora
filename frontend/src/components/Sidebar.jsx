@@ -165,13 +165,17 @@
 
 import { NavLink } from "react-router-dom";
 import { Home, Album, Star, Users, X } from "lucide-react";
+import plogo from "../../public/letter-p.png";
 
 export default function Sidebar({ onClose }) {
   return (
     <aside className="w-64 h-full flex flex-col bg-white border-r shadow-sm">
       {/* Header with logo */}
-      <div className="h-16 px-4 flex items-center justify-between border-b">
-        <h1 className="text-xl font-bold text-gray-700">Pixora</h1>
+          <div className="h-16 px-7 flex items-center justify-between border-b">
+              <div className="flex justify-center items-center gap-3">
+              <img src={plogo} alt="" className="h-8"/>
+                  <h1 className="text-2xl font-bold text-gray-700">Pixora</h1>
+                  </div>
         {/* Close icon on mobile */}
         <button className="md:hidden" onClick={onClose}>
           <X className="w-5 h-5 text-gray-600" />
