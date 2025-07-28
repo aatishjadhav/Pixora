@@ -12,7 +12,10 @@ const imageRoutes = require("./routes/imageRoutes");
 dotenv.config();
 
 const app = express();
-app.use(cors({credentials: true, origin: 'http://localhost:5173'}));
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
