@@ -49,7 +49,7 @@ const googleCallback = async (req, res) => {
     res.cookie("access_token", jwtToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Lax",
+      sameSite: "None",
       maxAge: 2 * 60 * 60 * 1000,
     });
     res.redirect(`${process.env.FRONTEND_URL}/v2/profile/google`);
