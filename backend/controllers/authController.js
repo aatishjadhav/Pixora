@@ -5,7 +5,7 @@ const { generateToken } = require("../utils/jwtUtils.js");
 require("dotenv").config();
 
 const googleAuth = (req, res) => {
-  const redirectUri = `${process.env.GOOGLE_REDIRECT_URI}/auth/google/callback`;
+  const redirectUri = `https://pixora-backend.vercel.app/auth/google/callback`;
   const googleAuthUrl =
     `https://accounts.google.com/o/oauth2/auth?` +
     `client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${redirectUri}` +
@@ -25,7 +25,7 @@ const googleCallback = async (req, res) => {
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
         code,
         grant_type: "authorization_code",
-        redirect_uri: `${process.env.GOOGLE_REDIRECT_URI}/auth/google/callback`,
+        redirect_uri: `https://pixora-backend.vercel.app/auth/google/callback`,
       }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     );
