@@ -2,22 +2,29 @@ import { useEffect, useState } from "react";
 import { getAllImages } from "../services/ImageService";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAllImages().then((res) => setImages(res.data));
+    getAllImages()
+      .then((res) => setImages(res.data))
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold mb-4">All Photos</h2>
+        <h2 className="lg:text-2xl text-xl font-bold lg:mb-4">All Photos</h2>
         <button
           onClick={() => navigate("/upload-photo")}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow cursor-pointer"
+          className="bg-blue-500 hover:bg-blue-600 text-white lg:px-4 lg:py-2 px-2 py-1 rounded-md shadow cursor-pointer"
         >
           + Add Photo
         </button>

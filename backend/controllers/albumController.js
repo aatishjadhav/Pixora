@@ -16,6 +16,21 @@ const getAlbumById = async (req, res) => {
   res.json(album);
 };
 
+const getSharedAlbums = async (req, res) => {
+  try {
+    const sharedAlbums = await Album.find({
+      sharedWith: req.user.email,
+      ownerId: { $ne: req.user.userId },
+    });
+
+    res.json(sharedAlbums);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch shared albums" });
+  }
+};
+
+
 
 const createAlbum = async (req, res) => {
   const { name, description } = req.body;
@@ -76,4 +91,5 @@ module.exports = {
   shareAlbum,
   deleteAlbum,
   getUserAlbums,
+  getSharedAlbums
 };

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
@@ -36,11 +36,13 @@ export default function AppLayout() {
 
           {/* Profile icon */}
           {user && (
-            <img
-              src={user.picture}
-              alt="Profile"
-              className="w-9 h-9 rounded-full border shadow-sm"
-            />
+            <Link to="/v2/profile/google">
+              <img
+                src={user.picture}
+                alt="Profile"
+                className="w-9 h-9 rounded-full border shadow-sm"
+              />
+            </Link>
           )}
         </div>
 
@@ -52,4 +54,3 @@ export default function AppLayout() {
     </div>
   );
 }
-

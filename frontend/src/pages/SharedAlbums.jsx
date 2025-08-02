@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAlbums } from "../services/AlbumService";
+import { getSharedAlbums } from "../services/AlbumService";
 import Loader from "../components/Loader";
 
-export default function AlbumList() {
+export default function SharedAlbums() {
   const navigate = useNavigate();
   const [albums, setAlbums] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getAlbums()
+    getSharedAlbums()
       .then((res) => setAlbums(res.data))
       .catch((err) => console.error(err))
       .finally(() => setIsLoading(false));
@@ -39,32 +39,40 @@ export default function AlbumList() {
         </button>
       </div>
       <hr className="py-3" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {albums.map((album) => (
-          <div
-            key={album._id}
-            onClick={() => navigate(`/albums/${album._id}`)}
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
-          >
-            <div className="h-70 bg-gray-200 flex items-center justify-center text-gray-400">
-              <img
-                src={album.coverPhotoUrl}
-                className="h-70 w-full object-cover"
-                alt="cover image"
-              />
-            </div>
+      {albums.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {albums.map((album) => (
+            <div
+              key={album._id}
+              onClick={() => navigate(`/albums/${album._id}`)}
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+            >
+              <div className="h-70 bg-gray-200 flex items-center justify-center text-gray-400">
+                <img
+                  src={album.coverPhotoUrl}
+                  className="h-70 w-full object-cover"
+                  alt="cover image"
+                />
+              </div>
 
-            <div className="p-3">
-              <h3 className="text-lg font-semibold text-gray-800 truncate">
-                {album.name}
-              </h3>
-              {/* <p className="text-gray-600 text-sm mt-1 truncate">
-                {album.description}
-              </p> */}
+              <div className="p-3">
+                <h3 className="text-lg font-semibold text-gray-800 truncate">
+                  {album.name}
+                </h3>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <img
+            src="https://www.gstatic.com/social/photosui/images/empty_state_albums_dark.svg"
+            alt=""
+            className="h-52"
+          />
+          <p className="mt-4">Albums shared with you are shown here</p>
+        </div>
+      )}
     </div>
   );
 }

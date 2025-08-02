@@ -12,6 +12,7 @@ import FavouriteImages from "./pages/FavouriteImages";
 import UploadToAllImages from "./pages/UploadImage";
 import AppLayout from "./components/AppLayout";
 import ImageDetail from "./pages/ImageDetail";
+import SharedAlbums from "./pages/SharedAlbums";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="photos" element={<Home />} />
           <Route path="/v2/profile/google" element={<GoogleProfile />} />
           <Route path="albums" element={<AlbumList />} />
+          <Route path="shared" element={<SharedAlbums />} />
           <Route path="albums/new" element={<CreateAlbum />} />
           <Route path="albums/:albumId" element={<AlbumDetail />} />
           <Route path="albums/:albumId/upload" element={<UploadImage />} />

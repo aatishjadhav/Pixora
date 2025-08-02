@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAlbumById, createAlbum, updateAlbum, shareAlbum, deleteAlbum, getUserAlbums } = require("../controllers/albumController");
+const { getAlbumById, createAlbum, updateAlbum, shareAlbum, deleteAlbum, getUserAlbums, getSharedAlbums } = require("../controllers/albumController");
 const {verifyAccessToken} = require("../middleware/verifyAccessToken");
 const multer = require("multer");
 const cloudinary = require("cloudinary");
@@ -17,6 +17,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 router.get("/", verifyAccessToken, getUserAlbums);
+router.get("/shared", verifyAccessToken, getSharedAlbums);
 router.post("/", verifyAccessToken, upload.single("cover"), createAlbum);
 router.get("/:albumId", verifyAccessToken, getAlbumById);
 router.put("/:albumId", verifyAccessToken, updateAlbum);

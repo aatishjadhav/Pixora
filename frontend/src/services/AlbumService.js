@@ -22,3 +22,6 @@ export const deleteAlbum = (id) =>
 
 export const shareAlbum = (id, emails) =>
   axios.post(`${API}/${id}/share`, { emails }, { withCredentials: true });
+
+export const getSharedAlbums = () =>
+  axios.get(`${API}/shared`, { withCredentials: true });

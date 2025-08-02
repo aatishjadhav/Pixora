@@ -6,6 +6,7 @@ import moment from "moment";
 import ShareAlbumModal from "./ShareAlbumModal";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import Loader from "../components/Loader";
 
 export default function AlbumDetail() {
   const navigate = useNavigate();
@@ -14,10 +15,12 @@ export default function AlbumDetail() {
   const [album, setAlbum] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
+        setIsLoading(true);
         const url = showFavoritesOnly
           ? `${BASE_URL}/images/albums/${albumId}/favorites`
           : `${BASE_URL}/images/albums/${albumId}`;
@@ -26,6 +29,8 @@ export default function AlbumDetail() {
         setImages(res.data);
       } catch (error) {
         console.error("Failed to fetch images", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -47,11 +52,13 @@ export default function AlbumDetail() {
     }
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {album && (
         <div className="mb-6">
-          <div className="flex justify-between items-center">
+          {/* <div className="flex justify-between items-center">
             <h2 className="text-3xl font-bold text-gray-800">{album.name}</h2>
             <div className="flex items-center gap-3">
               <button
@@ -87,7 +94,48 @@ export default function AlbumDetail() {
                 {showFavoritesOnly ? "Show All" : "Favorites"}
               </button>
             </div>
+          </div> */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              {album.name}
+            </h2>
+
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              <button
+                className="hover:border-gray-600 p-1 rounded-xl px-3 py-2 cursor-pointer border border-gray-300 flex items-center gap-2"
+                onClick={() => navigate(`/albums/${album._id}/upload`)}
+              >
+                <svg
+                  width="18px"
+                  height="18px"
+                  className="v1262d"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-8-2h2v-4h4v-2h-4V7h-2v4H7v2h4z" />
+                </svg>
+                <span>Add Photo</span>
+              </button>
+
+              <button
+                onClick={() => setShowShareModal(true)}
+                className="p-1 rounded-xl px-3 py-2 cursor-pointer border border-gray-500"
+              >
+                Share Album
+              </button>
+
+              <button
+                onClick={() => setShowFavoritesOnly((prev) => !prev)}
+                className={`px-3 py-2 border rounded-xl ${
+                  showFavoritesOnly
+                    ? "bg-blue-500 text-white"
+                    : "border-gray-500"
+                }`}
+              >
+                {showFavoritesOnly ? "Show All" : "Favorites"}
+              </button>
+            </div>
           </div>
+
           {showShareModal && (
             <div className="fixed inset-0 bg-neutral-100/60 z-50 flex items-center justify-center">
               <ShareAlbumModal

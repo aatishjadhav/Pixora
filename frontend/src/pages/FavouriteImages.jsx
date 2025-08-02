@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { getAllFavorites } from "../services/ImageService";
+import Loader from "../components/Loader";
 
 export default function FavouriteImages() {
   const [favorites, setFavorites] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getAllFavorites()
       .then((res) => setFavorites(res.data))
-      .catch((err) => console.error("Error loading favorites", err));
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="max-w-7xl mx-auto p-6">
