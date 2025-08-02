@@ -25,8 +25,29 @@ export const getAllFavorites = () =>
 export const toggleFavorite = (albumId, imageId, isFavorite) =>
   axios.put(`${API}/albums/${albumId}/${imageId}/favorite`, { isFavorite }, { withCredentials: true });
 
-export const addComment = (albumId, imageId, comment) =>
-  axios.post(`${API}/albums/${albumId}/${imageId}/comments`, { comment }, { withCredentials: true });
+export const getComments = (imageId) =>
+  axios.get(`${API}/${imageId}/comments`, { withCredentials: true });
+
+export const addComment = (imageId, text) =>
+  axios.post(
+    `${API}/${imageId}/comments`,
+    { text },
+    { withCredentials: true }
+  );
+
+  export const editComment = (imageId, commentId, text) => {
+  return axios.put(
+    `${API}/${imageId}/comments/${commentId}`,
+    { text },
+    { withCredentials: true }
+  );
+};
+
+export const deleteComment = (imageId, commentId) => {
+  return axios.delete(`${API}/${imageId}/comments/${commentId}`, {
+    withCredentials: true,
+  });
+};
 
 export const deleteImage = (albumId, imageId) =>
   axios.delete(`${API}/albums/${albumId}/${imageId}`, { withCredentials: true });

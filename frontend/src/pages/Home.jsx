@@ -19,18 +19,24 @@ export default function HomePage() {
           onClick={() => navigate("/upload-photo")}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow cursor-pointer"
         >
-         + Add Photo
+          + Add Photo
         </button>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {images.map((img) => (
           <div key={img._id} className="relative group">
-            <img
-              src={img.cloudUrl}
-              alt={img.name}
-              className="w-full h-60 object-cover rounded shadow"
-            />
+            <div
+              key={img._id}
+              className="relative group cursor-pointer"
+              onClick={() => navigate(`/images/${img._id}/comments`)}
+            >
+              <img
+                src={img.cloudUrl}
+                alt={img.name}
+                className="w-full h-60 object-cover rounded shadow"
+              />
+            </div>
 
             <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-md shadow-sm">
               {moment(img.uploadedAt).format("MMMM D, YYYY")}

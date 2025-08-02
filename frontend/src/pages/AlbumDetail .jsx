@@ -109,11 +109,17 @@ export default function AlbumDetail() {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {images.map((img) => (
           <div key={img._id} className="relative group">
-            <img
-              src={img.cloudUrl}
-              alt={img.name}
-              className="w-full h-60 object-cover rounded shadow-sm"
-            />
+            <div
+              key={img._id}
+              className="relative group cursor-pointer"
+              onClick={() => navigate(`/images/${img._id}/comments`)}
+            >
+              <img
+                src={img.cloudUrl}
+                alt={img.name}
+                className="w-full h-60 object-cover rounded shadow-sm"
+              />
+            </div>
             <div
               className="absolute top-2 right-2 cursor-pointer"
               onClick={() => handleFavoriteToggle(img._id, img.isFavorite)}

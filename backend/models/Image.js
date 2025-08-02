@@ -7,7 +7,6 @@ const imageSchema = new mongoose.Schema({
   tags: [String],
   person: String,
   isFavorite: Boolean,
-  comments: { type: [String], default: [] },
   size: Number,
   uploadedAt: { type: Date, default: Date.now },
 });

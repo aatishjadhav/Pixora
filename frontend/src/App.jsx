@@ -11,6 +11,7 @@ import UploadImage from "./pages/AlbumImageUpload";
 import FavouriteImages from "./pages/FavouriteImages";
 import UploadToAllImages from "./pages/UploadImage";
 import AppLayout from "./components/AppLayout";
+import ImageDetail from "./pages/ImageDetail";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="albums/:albumId/upload" element={<UploadImage />} />
           <Route path="favorites" element={<FavouriteImages />} />
           <Route path="upload-photo" element={<UploadToAllImages />} />
+          <Route path="/images/:imageId/comments" element={<ImageDetail />} />
         </Route>
       </Routes>
     </AuthProvider>
